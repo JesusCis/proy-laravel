@@ -7,7 +7,7 @@
               <h4>Usuarios</h4>
 
               <div class="card-tools">
-                  <button class="btn-primary" data-toggle="modal" data-target="#exampleModal">Agregar
+                  <button class="btn-primary" data-toggle="modal" data-target="#nuevoM">Agregar
                       <i class="fas fa-user-plus fa-fw"></i></button>
               </div>
             </div>
@@ -55,11 +55,11 @@
 
 
     <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="nuevoM" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Agregar Usuario</h5>
+        <h5 class="modal-title" id="nuevoM">Agregar Usuario</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -92,9 +92,9 @@
                'is-invalid': form.errors.has('type')}">
 
                <option value="usu">Tipo de administradores</option>
-               <option value="admin">Administadror</option>
-               <option value="user">Usuario Normal</option>
-               <option value="author">Autores</option>
+               <option value="administrador">Administadror</option>
+               <option value="usuario">Usuario Normal</option>
+               <option value="autor">Autores</option>
            </select>
            <has-error :form="form" field="type"></has-error>
         </div>
@@ -140,7 +140,17 @@
             },
 
             createUser(){
+                this.$Progress.start();
                 this.form.post('api/user');
+
+                $('#nuevoM').modal('hide')
+
+                 toast.fire({
+                    type: 'success',
+                    title: 'Usuario agregado correctamente'
+                    })
+
+                this.$Progress.finish();
             }
         },
         created() {
