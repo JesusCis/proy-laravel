@@ -41,8 +41,8 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-5">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
-      <img src="./img/hospital.png" class="brand-image img-circle elevation" alt="Logo">
-           <span class="brand-text font-weight-light">Innsz</span>
+      <img src="./img/hospital.png" class="brand-image img-circle elevation-4" alt="Logo">
+           <h4 class="brand-text font-weight-light">Innsz</h4>
            <p></p>
     </a>
 

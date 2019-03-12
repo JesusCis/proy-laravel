@@ -76,25 +76,26 @@
         <div class="form-group">
             <input v-model="form.email" type="text" name="email"
                 placeholder="Correo Electronico"
-                class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
+                class="form-control" :class="{ 'invalido': form.errors.has('email') }">
             <has-error :form="form" field="email"></has-error>
         </div>
 
         <div class="form-group">
-            <input v-model="form.bio" type="text" name="bio"
+            <textarea v-model="form.bio" type="text" name="bio"
                 placeholder="breve biografía para el usuario"
-                class="form-control" :class="{ 'is-invalid': form.errors.has('bio') }">
+                class="form-control" :class="{ 'is-invalid': form.errors.has('bio') }"></textarea>
             <has-error :form="form" field="bio"></has-error>
         </div>
 
         <div class="form-group">
-           <select name="type" v-model="form.type" id="type" class="form-control" :class="{
+           <select name="type" v-model="form.type" id="type" class="form-control form-control-lg" :class="{
                'is-invalid': form.errors.has('type')}">
 
                <option value="usu">Tipo de administradores</option>
                <option value="administrador">Administadror</option>
                <option value="usuario">Usuario Normal</option>
                <option value="autor">Autores</option>
+
            </select>
            <has-error :form="form" field="type"></has-error>
         </div>
@@ -155,6 +156,8 @@
         },
         created() {
             this.loadUsers();
+            setInterval(() => this.loadUsers(), 3000);
         }
     }
 </script>
+

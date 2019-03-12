@@ -17951,7 +17951,7 @@ var toast = __WEBPACK_IMPORTED_MODULE_2_sweetalert2___default.a.mixin({
   toast: true,
   position: 'top-end',
   showConfirmButton: false,
-  timer: 8000
+  timer: 6000
 });
 
 window.toast = toast;
@@ -68224,6 +68224,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -68264,7 +68265,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     created: function created() {
+        var _this2 = this;
+
         this.loadUsers();
+        setInterval(function () {
+            return _this2.loadUsers();
+        }, 3000);
     }
 });
 
@@ -68399,7 +68405,7 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          class: { "is-invalid": _vm.form.errors.has("email") },
+                          class: { invalido: _vm.form.errors.has("email") },
                           attrs: {
                             type: "text",
                             name: "email",
@@ -68427,7 +68433,7 @@ var render = function() {
                       "div",
                       { staticClass: "form-group" },
                       [
-                        _c("input", {
+                        _c("textarea", {
                           directives: [
                             {
                               name: "model",
@@ -68476,7 +68482,7 @@ var render = function() {
                                 expression: "form.type"
                               }
                             ],
-                            staticClass: "form-control",
+                            staticClass: "form-control form-control-lg",
                             class: {
                               "is-invalid": _vm.form.errors.has("type")
                             },
