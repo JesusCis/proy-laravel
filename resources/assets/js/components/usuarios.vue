@@ -7,7 +7,7 @@
               <h4>Usuarios</h4>
 
               <div class="card-tools">
-                  <button class="btn-primary" data-toggle="modal" data-target="#nuevoM">Agregar
+                  <button type="button" class="btn btn-primary" @click="nModal">Agregar
                       <i class="fas fa-user-plus fa-fw"></i></button>
               </div>
             </div>
@@ -34,11 +34,11 @@
                   <td>{{user.created_at | mydate}}</td>
 
                   <td>
-                      <a href="">
+                      <a href="" onclick="return false;" @click="editmodal(user)">
                           <i class="fa fa-edit"></i>
                       </a>
                       /
-                      <a href="">
+                      <a href="" onclick="return false;"  @click="deleteUser(user.id)">
                           <i class="fa fa-trash"></i>
                       </a>
                   </td>
@@ -59,12 +59,13 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="nuevoM">Agregar Usuario</h5>
+        <h5 class="modal-title" v-show="!editmode" id="nuevoM">Agregar Usuario</h5>
+        <h5 class="modal-title" v-show="editmode" id="nuevoM">Editar Usuario</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form @submit.prevent="createUser">
+      <form @submit.prevent=" editmode ? updateUser() : createUser()">
       <div class="modal-body">
       <div class="form-group">
             <input v-model="form.name" type="text" name="name"
@@ -103,13 +104,15 @@
         <div class="form-group">
             <input v-model="form.password" type="password" name="password"
                 placeholder="Contraseña"
-                class="form-control" :class="{ 'is-invalid': form.errors.has('Contraseña') }">
+                class="form-control" :class="{ 'is-invalid': form.errors.has('password') }">
             <has-error :form="form" field="Contraseña"></has-error>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-primary">Agregar</button>
+        <button v-show="editmode" type="submit" class="btn btn-success">Actualizar</button>
+        <button v-show="!editmode" type="submit" class="btn btn-success">Agregar</button>
+
       </div>
 
       </form>
@@ -124,8 +127,10 @@
     export default {
         data() {
             return{
+                editmode: false,
                 users : {},
                 form: new Form({
+                    id:'',
                     name: '',
                     email:'',
                     password:'',
@@ -136,14 +141,62 @@
             }
         },
         methods:{
+
+            updateUser(id){
+              this.$Progress.start();
+              this.form.put('api/user/'+ this.form.id)
+
+              .then(() =>{
+
+                 toast.fire({
+                    type: 'success',
+                    title: 'Usuario Editado Correctamente'
+                    })
+
+                  this.$Progress.finish();
+                   $('#nuevoM').modal('hide');
+                   setInterval(() => this.loadUsers(), 3000);
+              })
+
+              .catch(()=>{
+                this.$Progress.fail();
+              });
+            },
+
+            editmodal(user){
+              this.editmode = true;
+              this.form.reset()
+              $('#nuevoM').modal('show');
+              this.form.fill(user)
+            },
+
+            nModal(){
+              this.editmode = false;
+              this.form.reset();
+              $('#nuevoM').modal('show');
+            },
+
+            deleteUser(id){
+
+               this.form.delete('api/user/'+id).then(()=>{
+                   toast.fire({
+                    type: 'success',
+                    title: 'Usuario Eliminado Correctamente'
+                    })
+                  setInterval(() => this.loadUsers(), 3000);
+                    
+                })
+            },
             loadUsers(){
                 axios.get("api/user").then(({data}) => (this.users = data.data));
             },
 
             createUser(){
                 this.$Progress.start();
-                this.form.post('api/user');
+                this.form.post('api/user')
+                .then(() =>{
 
+                 Fire.$emit('AfterCreate');
                 $('#nuevoM').modal('hide')
 
                  toast.fire({
@@ -152,11 +205,20 @@
                     })
 
                 this.$Progress.finish();
+                })
+
+                .catch(() =>{
+
+                })
+
             }
         },
         created() {
             this.loadUsers();
-            setInterval(() => this.loadUsers(), 3000);
+            Fire.$on('AfterCreate',() => {
+                this.loadUsers();
+            });
+          //  setInterval(() => this.loadUsers(), 3000);
         }
     }
 </script>

@@ -19,7 +19,7 @@ const toast = swal.mixin({
     toast: true,
     position: 'top-end',
     showConfirmButton: false,
-    timer: 6000
+    timer: 4000
   });
 
 window.toast = toast;
@@ -57,6 +57,8 @@ let routes = [
   Vue.filter('mydate', function(created){
     return moment(created).format('ll');
   });
+
+  window.Fire = new Vue();
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
