@@ -9,6 +9,20 @@ use Illuminate\Support\Facades\Hash;
 
 class usercontroller extends Controller
 {
+
+     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('api');
+
+
+    }
+
+
     //
     public function index(){
 

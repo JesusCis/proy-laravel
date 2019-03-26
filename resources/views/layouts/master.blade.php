@@ -97,13 +97,23 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <router-link to="/reportes" class="nav-link">
                   <i class="fa fa-align-justify nav-icon"></i>
                   <p>Reportes</p>
-                </a>
+                </router-link>
               </li>
             </ul>
           </li>
+
+          <li class="nav-item">
+            <router-link to="/desarrollo" class="nav-link">
+              <i class="nav-icon fas fa-cogs "></i>
+              <p>
+                desarrollo
+             </p>
+            </router-link>
+          </li>
+          
           <li class="nav-item">
             <router-link to="/perfiles" class="nav-link">
               <i class="nav-icon fas fa-user "></i>
@@ -112,6 +122,8 @@
              </p>
             </router-link>
           </li>
+
+
           <li class="nav-item">
 
                    <a class="nav-link" href="{{ route('logout') }}"

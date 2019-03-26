@@ -15,7 +15,7 @@
             <div class="card-body table-responsive p-2">
               <table class="table table-hover">
                 <tbody>
-                <tr>
+                <tr>             
                   <th>ID</th>
                   <th>Nombre</th>
                   <th>Correo</th>
